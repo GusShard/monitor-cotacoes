@@ -6,12 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class PriceAlert extends Model
 {
-    protected $fillble = [
+    protected $fillable = [
         'user_id',
         'asset_id',
         'target_price',
         'condition',
-        'is_triggered_at',
+        'is_triggered',
+        'triggered_at',
     ];
 
     protected function casts(): array
@@ -23,7 +24,7 @@ class PriceAlert extends Model
         ];
     }
     
-    public funtion user()
+    public function user()
     {
         return $this->belongsTo(User::class);
     }

@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Login — MarketWatch Analytics</title>
+    <title>Criar Conta — MarketWatch Analytics</title>
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
@@ -20,7 +20,7 @@
             </h1>
 
             <p class="text-sm text-slate-400 mt-2">
-                Monitor de cotações e alertas
+                Criar nova conta
             </p>
         </div>
 
@@ -32,15 +32,27 @@
             </div>
         @endif
 
-        <form method="POST" action="{{ route('login.store') }}" class="space-y-5">
+        <form method="POST" action="{{ route('register.store') }}" class="space-y-5">
             @csrf
+
+            <div>
+                <label for="name" class="block text-sm text-slate-300 mb-2">
+                    Nome
+                </label>
+
+                <input id="name" type="text" name="name" value="{{ old('name') }}" required autofocus
+                    autocomplete="name"
+                    class="w-full rounded-lg border border-slate-700 bg-slate-950
+                           px-4 py-3 text-slate-100 focus:outline-none
+                           focus:border-indigo-500">
+            </div>
 
             <div>
                 <label for="email" class="block text-sm text-slate-300 mb-2">
                     E-mail
                 </label>
 
-                <input id="email" type="email" name="email" value="{{ old('email') }}" required autofocus
+                <input id="email" type="email" name="email" value="{{ old('email') }}" required
                     autocomplete="email"
                     class="w-full rounded-lg border border-slate-700 bg-slate-950
                            px-4 py-3 text-slate-100 focus:outline-none
@@ -52,7 +64,19 @@
                     Senha
                 </label>
 
-                <input id="password" type="password" name="password" required autocomplete="current-password"
+                <input id="password" type="password" name="password" required autocomplete="new-password"
+                    class="w-full rounded-lg border border-slate-700 bg-slate-950
+                           px-4 py-3 text-slate-100 focus:outline-none
+                           focus:border-indigo-500">
+            </div>
+
+            <div>
+                <label for="password_confirmation" class="block text-sm text-slate-300 mb-2">
+                    Confirmar senha
+                </label>
+
+                <input id="password_confirmation" type="password" name="password_confirmation" required
+                    autocomplete="new-password"
                     class="w-full rounded-lg border border-slate-700 bg-slate-950
                            px-4 py-3 text-slate-100 focus:outline-none
                            focus:border-indigo-500">
@@ -61,13 +85,13 @@
             <button type="submit"
                 class="w-full rounded-lg bg-indigo-600 py-3 font-semibold
                        text-white hover:bg-indigo-500 transition">
-                Entrar
+                Criar conta
             </button>
         </form>
 
         <p class="text-center text-sm text-slate-400 mt-6">
-            Não tem conta?
-            <a href="{{ route('register') }}" class="text-indigo-400 hover:underline">Criar conta</a>
+            Já tem conta?
+            <a href="{{ route('login') }}" class="text-indigo-400 hover:underline">Entrar</a>
         </p>
 
     </div>

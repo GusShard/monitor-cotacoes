@@ -20,19 +20,9 @@ class Asset extends Model
     protected function casts(): array
     {
         return [
-            'current_price'     => 'decimal:4',
-            'high_price'        => 'decimal:4',
-            'low_price'         => 'decimal:4',
-            'variation_24h'     -> 'decimal:2',
-        ];
-    }
-    
-    protected function casts(): array
-    {
-        return [
             'current_price' => 'decimal:4',
-            'high_price'    => 'decimal:4',
-            'low_price'     => 'decimal:4',
+            'high_price' => 'decimal:4',
+            'low_price' => 'decimal:4',
             'variation_24h' => 'decimal:2',
         ];
     }
@@ -42,9 +32,8 @@ class Asset extends Model
         return $this->hasMany(PriceHistory::class);
     }
 
-    public funtion alerts()
+    public function alerts()
     {
         return $this->hasMany(PriceAlert::class);
     }
-
 }

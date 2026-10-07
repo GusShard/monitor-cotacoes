@@ -10,9 +10,9 @@ use RuntimeException;
 
 class QuoteService
 {
-    public function update(): int
+    public function updateQuotes(): int
     {
-        $url = config('services.quotes_api.url');
+        $url = config('services.quotes.url');
 
         if (empty($url)) {
             throw new RuntimeException(
@@ -21,9 +21,7 @@ class QuoteService
         }
 
         try {
-            $response = Http::withOptions([
-                'verify' => base_path('cacert.pem'),
-            ])
+            $response = Http::withoutVerifying()
                 ->timeout(10)
                 ->connectTimeout(5)
                 ->retry(3, 500)
@@ -34,8 +32,8 @@ class QuoteService
                 Log::warning(
                     'Falha HTTP na API de cotações.',
                     [
-                        'status'    => $response->status(),
-                        'url'       => $url,
+                        'status' => $response->status(),
+                        'url'    => $url,
                     ]
                 );
 
@@ -102,7 +100,7 @@ class QuoteService
                         Log::warning(
                             'Campo de cotação ausente ou inválido.',
                             [
-                                'code' => $code,
+                                'code'  => $code,
                                 'field' => $field,
                             ]
                         );
@@ -111,11 +109,10 @@ class QuoteService
                     }
                 }
 
-                $currentPrice   = (float) $quote['bid'];
-                $highPrice      = (float) $quote['high'];
-                $lowPrice       = (float) $quote['low'];
-                $variation24h   = (float) $quote['pctChange'];
-
+                $currentPrice = (float) $quote['bid'];
+                $highPrice    = (float) $quote['high'];
+                $lowPrice     = (float) $quote['low'];
+                $variation24h = (float) $quote['pctChange'];
 
                 DB::transaction(function () use (
                     $asset,
@@ -126,17 +123,17 @@ class QuoteService
                     $fetchedAt
                 ) {
                     $asset->update([
-                        'current_price'     => $currentPrice,
-                        'high_price'        => $highPrice,
-                        'low_price'         => $lowPrice,
-                        'variation_24h'     => $variation24h,
+                        'current_price' => $currentPrice,
+                        'high_price'    => $highPrice,
+                        'low_price'     => $lowPrice,
+                        'variation_24h' => $variation24h,
                     ]);
 
                     $asset->priceHistories()->create([
-                        'price'         => $currentPrice,
-                        'high_price'    => $highPrice,
-                        'low_price'     => $lowPrice,
-                        'fetched_at'    => $fetchedAt,
+                        'price'      => $currentPrice,
+                        'high_price' => $highPrice,
+                        'low_price'  => $lowPrice,
+                        'fetched_at' => $fetchedAt,
                     ]);
                 });
 

@@ -10,6 +10,10 @@ Route::middleware('guest')->group(function () {
     Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 
     Route::post('/login', [AuthController::class, 'login'])->name('login.store');
+
+    Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
+
+    Route::post('/register', [AuthController::class, 'register'])->name('register.store');
 });
 
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth')->name('logout');
@@ -26,7 +30,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/alerts/create', [AlertController::class, 'create'])->name('alerts.create');
 
-    Route::post('/alerts/create', [AlertController::class, 'store'])->name('alerts.store');
+    Route::post('/alerts', [AlertController::class, 'store'])->name('alerts.store');
 
     Route::get('/alerts/{alert}/edit', [AlertController::class, 'edit'])->name('alerts.edit');
 
