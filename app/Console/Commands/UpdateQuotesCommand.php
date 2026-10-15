@@ -33,7 +33,7 @@ class UpdateQuotesCommand extends Command
         $this->info('Atualizando cotações...');
 
         try {
-            $updated = $quotes->update();
+            $updated = $quotes->updateQuotes();
 
             $triggered = $alerts->processPendingAlerts();
 
